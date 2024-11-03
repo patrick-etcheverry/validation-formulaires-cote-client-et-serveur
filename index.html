@@ -16,45 +16,51 @@
 
             <div class="mb-3">
                 <label for="prenom" class="form-label">Prénom</label>
-                <input type="text" class="form-control" id="prenom" name="prenom" required maxlength="10" minlength="2">
+                <input type="text" class="form-control" id="prenom" name="prenom" placeholder="Votre prénom" required
+                    maxlength="10" minlength="2" title="Entrez un prénom de 2 à 10 caractères.">
             </div>
 
             <div class="mb-3">
                 <label for="nom" class="form-label">Nom</label>
-                <input type="text" class="form-control" id="nom" name="nom" required>
+                <input type="text" class="form-control" id="nom" name="nom" placeholder="Votre nom" required
+                    title="Entrez un nom de 2 à 10 caractères.">
             </div>
 
             <div class="mb-3">
                 <label for="email" class="form-label">Email</label>
-                <input type="email" class="form-control" id="email" name="email" required>
+                <input type="email" class="form-control" id="email" name="email" placeholder="identifiant@domaine.com"
+                    required title="Entrez une adresse email valide, comme pierre@gmail.com">
             </div>
 
             <div class="mb-3">
                 <label for="experience" class="form-label">Années d'expérience professionnelle</label>
-                <input type="number" class="form-control" id="experience" name="experience" min="0" max="50">
+                <input type="number" class="form-control" id="experience" name="experience" placeholder="0" min="0"
+                    max="50" title="Entrez une valeur comprise entre 0 et 50.">
             </div>
 
             <div class="mb-3">
                 <label for="naissance" class="form-label">Date de naissance</label>
-                <input type="date" class="form-control" id="naissance" name="naissance" min="1950-01-01"
-                    max="2010-12-31">
+                <input type="date" class="form-control" id="naissance" name="naissance" placeholder="Date de naissance"
+                    min="1950-01-01" max="2010-12-31" title="Entrez une date de naissance entre 1950 et 2010.">
             </div>
 
             <div class="mb-3">
                 <label for="site" class="form-label">Site Web</label>
-                <input type="url" class="form-control" id="site" name="site">
+                <input type="url" class="form-control" id="site" name="site" placeholder="https://mon-site-web.fr"
+                    title="Entrez l'URL de votre site web en commençant par http:// ou https://">
             </div>
 
             <div class="mb-3">
                 <label for="tel" class="form-label">Téléphone</label>
-                <input type="tel" class="form-control" id="tel" name="tel"
-                    pattern="^0\d(\s|-|.)?(\d{2}(\s|-|.)?){4}$">
+                <input type="tel" class="form-control" id="tel" name="tel" placeholder="06-12-34-56-78"
+                    pattern="^0\d(\s|-|.)?(\d{2}(\s|-|.)?){4}$"
+                    title="Entrez un numéro de téléphone français composé de 10 chiffres et commençant par zéro, avec des espaces, tirets ou points.">
             </div>
 
             <div class="mb-3">
                 <label for="photo_profil" class="form-label">Photo de Profil</label>
                 <input type="file" class="form-control" id="photo_profil" name="photo_profil"
-                    aria-describedby="fileHelp" accept=".jpg, .png">
+                    aria-describedby="fileHelp" accept=".jpg, .png" title="Téléchargez une image au format JPG ou PNG ne dépassant pas 2Mo.">
                 <div id="fileHelp" class="form-text">Formats autorisés : .jpg, .png. Taille maximale : 2 Mo.</div>
             </div>
 
