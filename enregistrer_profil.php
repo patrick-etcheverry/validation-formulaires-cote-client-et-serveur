@@ -1,3 +1,24 @@
+<?php
+
+// Inclusion du fichier contenant les fonctions de validation
+require_once 'fonctions_validations.php';
+
+// Initialisation du tableau des messages d'erreurs
+$messagesErreurs = [];
+
+// Validation de chaque champ du formulaire (excepté la photo de profil)
+$prenomValide = validerPrenom($_POST['prenom'], $messagesErreurs);
+$nomValide = validerNom($_POST['nom'], $messagesErreurs);
+$emailValide = validerEmail($_POST['email'], $messagesErreurs);
+$telephoneValide = validerTelephone($_POST['tel'], $messagesErreurs);
+$experienceValide = validerAnneesExperience($_POST['experience'], $messagesErreurs);
+$dateNaissanceValide = validerDateNaissance($_POST['naissance'], $messagesErreurs);
+$urlSiteValide = validerUrlSiteWeb($_POST['site'], $messagesErreurs);
+
+// Validation spécifique pour la photo de profil
+$photoValide = validerUploadEtPhoto($_FILES['photo_profil'], $messagesErreurs);
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -13,22 +34,27 @@
     <div class="container mt-5">
         <h2 class="mb-4">Détails du Profil Utilisateur</h2>
 
+
+        <?php echo "Date naissance : " . $_POST['naissance'] . "<br>"; ?>
+
         <ul class="list-group mb-4">
-            <li class="list-group-item"><strong>Prénom :</strong> <?= $_POST['prenom'] ?? ''; ?></li>
-            <li class="list-group-item"><strong>Nom :</strong> <?= $_POST['nom'] ?? ''; ?></li>
-            <li class="list-group-item"><strong>Email :</strong> <?= $_POST['email'] ?? ''; ?></li>
-            <li class="list-group-item"><strong>Années d'expérience professionnelle :</strong> <?= $_POST['experience'] ?? ''; ?></li>
-            <li class="list-group-item"><strong>Date de Naissance :</strong> <?= $_POST['naissance'] ?? ''; ?></li>
-            <li class="list-group-item"><strong>Site Web :</strong> <?= $_POST['site'] ?? ''; ?></li>
-            <li class="list-group-item"><strong>Téléphone :</strong> <?= $_POST['tel'] ?? ''; ?></li>
+            <li class="list-group-item"><strong>Prénom :</strong> <?= $_POST['prenom']; ?></li>
+            <li class="list-group-item"><strong>Nom :</strong> <?= $_POST['nom']; ?></li>
+            <li class="list-group-item"><strong>Email :</strong> <?= $_POST['email']; ?></li>
+            <li class="list-group-item"><strong>Années d'expérience professionnelle :</strong> <?= $_POST['experience']; ?></li>
+            <li class="list-group-item"><strong>Date de Naissance :</strong> <?= $_POST['naissance']; ?></li>
+            <li class="list-group-item"><strong>Site Web :</strong> <?= $_POST['site']; ?></li>
+            <li class="list-group-item"><strong>Téléphone :</strong> <?= $_POST['tel']; ?></li>
         </ul>
 
         <?php
-        if (isset($_FILES['photo_profil']) && $_FILES['photo_profil']['error'] === UPLOAD_ERR_OK)
+        /* Si l'utilisateur a donné un fichier, que ce fichier a pu être uploadé sur le dossier temporaire du serveur
+         e t que le fichier a été jugé valide, alors on le déplace dans le dossier 'uploads' de notre application et
+         on affiche cette photo */
+        if (isset($_FILES['photo_profil']) && $_FILES['photo_profil']['error'] === UPLOAD_ERR_OK && $photoValide)
         {
-
-            /* Répertoire de destination pour l'enregistrement du fichier 
-               Attention : apache doit avoir des droits en écriture sur ce dossier */
+            /* Répertoire de destination pour l'enregistrement de la photo de profil.
+               Note : Apache doit avoir des droits en écriture sur ce dossier pour sauvegarder l'image. */
             $uploadDir = 'uploads/';
 
             /* Création d'un nom de fichier unique
@@ -57,6 +83,7 @@
             }
             else
             {
+                // Problème d’autorisation d'écriture ou d'accès si le fichier ne peut être déplacé
                 echo '<p class="text-danger">Erreur : Le fichier n\'a pas pu être téléchargé.</p>';
             }
         }
@@ -66,9 +93,31 @@
         }
         ?>
 
-        <div class="text-center">
+        <div class="text-center mb-4">
             <a href="index.html" class="btn btn-secondary mt-4">Retour à l'édition</a>
         </div>
+
+
+        <?php
+        // Affichage des éventuels messages d'erreurs
+        if (empty($messagesErreurs))
+        {
+            echo "<p class='text-success'>Les données soumises sont valides.</p>";
+        }
+        else
+        {
+            echo "<div class='alert alert-danger'>";
+            echo "<h4>Erreurs de Validation :</h4>";
+            echo "<ul>";
+            foreach ($messagesErreurs as $erreur)
+            {
+                echo "<li>$erreur</li>";
+            }
+            echo "</ul>";
+            echo "</div>";
+        }
+        ?>
+
     </div>
 
 </body>
